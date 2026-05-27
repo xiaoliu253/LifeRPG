@@ -25,9 +25,9 @@ public class GestureTaskActivity extends AppCompatActivity {
     // UI 组件
     private View gestureArea;
     private EditText etTaskTitle;
-    private TextView tvExpReward;
     private EditText etDueDate;
     private EditText etRemark;
+    private TextView tvExpReward;
     private TextView tvHint;
     private Button btnClear;
     private Button btnAdd;
@@ -41,6 +41,7 @@ public class GestureTaskActivity extends AppCompatActivity {
     private MediaPlayer mediaPlayer;
     private Vibrator vibrator;
     private SharedPreferences prefs;
+    private Handler handler;
 
     // 手势类型常量
     private static final int GESTURE_SINGLE_CLICK = 1;
@@ -54,17 +55,11 @@ public class GestureTaskActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_gesture_task);
 
-        // 初始化组件
+        handler = new Handler();
+
         initViews();
-
-        // 初始化系统服务
-        vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
-        prefs = getSharedPreferences("settings", MODE_PRIVATE);
-
-        // 加载保存的设置
+        initSystemServices();
         loadSettings();
-
-        // 设置监听器
         setupListeners();
     }
 
@@ -82,6 +77,11 @@ public class GestureTaskActivity extends AppCompatActivity {
         switchSound = findViewById(R.id.switch_sound);
     }
 
+    private void initSystemServices() {
+        vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+        prefs = getSharedPreferences("settings", MODE_PRIVATE);
+    }
+
     private void loadSettings() {
         switchVibrate.setChecked(prefs.getBoolean("vibrate", true));
         switchSound.setChecked(prefs.getBoolean("sound", true));
@@ -95,9 +95,8 @@ public class GestureTaskActivity extends AppCompatActivity {
     }
 
     private void setupListeners() {
-        // 触摸事件监听（核心）
+        // 触摸事件监听
         gestureArea.setOnTouchListener(new View.OnTouchListener() {
-            private Handler handler = new Handler();
             private Runnable longPressRunnable;
             private boolean isLongPressed = false;
 
@@ -106,7 +105,6 @@ public class GestureTaskActivity extends AppCompatActivity {
                 switch (event.getAction()) {
                     case MotionEvent.ACTION_DOWN:
                         isLongPressed = false;
-                        // 设置长按检测
                         longPressRunnable = new Runnable() {
                             @Override
                             public void run() {
@@ -120,14 +118,12 @@ public class GestureTaskActivity extends AppCompatActivity {
                     case MotionEvent.ACTION_UP:
                         handler.removeCallbacks(longPressRunnable);
                         if (!isLongPressed) {
-                            // 判断是单击还是双击
                             long currentTime = System.currentTimeMillis();
                             if (currentTime - lastClickTime < 300) {
                                 handleGesture(GESTURE_DOUBLE_CLICK);
                                 lastClickTime = 0;
                             } else {
                                 lastClickTime = currentTime;
-                                // 延迟判断是否是双击
                                 handler.postDelayed(new Runnable() {
                                     @Override
                                     public void run() {
@@ -150,6 +146,8 @@ public class GestureTaskActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 etTaskTitle.setText("");
+                etDueDate.setText("");
+                etRemark.setText("");
                 currentExp = 0;
                 tvExpReward.setText("0");
                 tvHint.setText("已清空，请重新选择手势");
@@ -158,9 +156,6 @@ public class GestureTaskActivity extends AppCompatActivity {
         });
 
         // 添加任务按钮
-        // 修改添加任务按钮的点击事件（在 setupListeners() 方法中）
-
-// 添加任务按钮
         btnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -178,7 +173,6 @@ public class GestureTaskActivity extends AppCompatActivity {
                     return;
                 }
 
-                // 将任务数据返回给调用方
                 Intent resultIntent = new Intent();
                 resultIntent.putExtra("task_title", title);
                 resultIntent.putExtra("task_exp", currentExp);
@@ -187,24 +181,23 @@ public class GestureTaskActivity extends AppCompatActivity {
                 setResult(RESULT_OK, resultIntent);
 
                 Toast.makeText(GestureTaskActivity.this, "委托已创建：" + title + " (" + currentExp + " EXP)", Toast.LENGTH_SHORT).show();
-                finish();  // 返回上一个页面
+                finish();
             }
         });
-//        btnBack.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                finish();
-//            }
-//        });
+
+        // 返回按钮
+        btnBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
 
         // 设置开关监听
         switchVibrate.setOnCheckedChangeListener((buttonView, isChecked) -> saveSettings());
         switchSound.setOnCheckedChangeListener((buttonView, isChecked) -> saveSettings());
     }
 
-    /**
-     * 处理各种手势和按键事件
-     */
     private void handleGesture(int gestureType) {
         switch (gestureType) {
             case GESTURE_SINGLE_CLICK:
@@ -237,13 +230,9 @@ public class GestureTaskActivity extends AppCompatActivity {
                 }
                 break;
         }
-        // 播放反馈（震动+音效）
         playFeedback(gestureType);
     }
 
-    /**
-     * 播放反馈效果（震动 + 音效）
-     */
     private void playFeedback(int gestureType) {
         // 震动反馈
         if (switchVibrate.isChecked() && vibrator != null) {
@@ -256,16 +245,19 @@ public class GestureTaskActivity extends AppCompatActivity {
 
         // 音效反馈
         if (switchSound.isChecked()) {
-            if (mediaPlayer == null) {
-                mediaPlayer = MediaPlayer.create(this, Settings.System.DEFAULT_NOTIFICATION_URI);
-            }
-            if (mediaPlayer != null) {
-                mediaPlayer.start();
+            try {
+                if (mediaPlayer == null) {
+                    mediaPlayer = MediaPlayer.create(this, Settings.System.DEFAULT_NOTIFICATION_URI);
+                }
+                if (mediaPlayer != null) {
+                    mediaPlayer.start();
+                }
+            } catch (Exception e) {
+                // 忽略音效播放失败
+                e.printStackTrace();
             }
         }
     }
-
-    // ==================== 按键事件处理（核心） ====================
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
@@ -273,15 +265,12 @@ public class GestureTaskActivity extends AppCompatActivity {
             case KeyEvent.KEYCODE_VOLUME_UP:
                 handleGesture(KEY_VOLUME_UP);
                 return true;
-
             case KeyEvent.KEYCODE_VOLUME_DOWN:
                 handleGesture(KEY_VOLUME_DOWN);
                 return true;
-
             case KeyEvent.KEYCODE_BACK:
                 Toast.makeText(this, "再按一次返回键退出", Toast.LENGTH_SHORT).show();
                 return true;
-
             default:
                 return super.onKeyDown(keyCode, event);
         }
@@ -291,8 +280,15 @@ public class GestureTaskActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         if (mediaPlayer != null) {
-            mediaPlayer.release();
+            try {
+                mediaPlayer.release();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
             mediaPlayer = null;
+        }
+        if (handler != null) {
+            handler.removeCallbacksAndMessages(null);
         }
     }
 }

@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="#F5F5F5">
+    android:background="#F5F7FA">
 
     <!-- 顶部标题栏 -->
     <LinearLayout
@@ -17,13 +17,14 @@
         <Button
             android:id="@+id/btn_back"
             android:layout_width="wrap_content"
-            android:layout_height="36dp"
-            android:text="返回"
-            android:background="#FFFFFF"
+            android:layout_height="wrap_content"
+            android:text="← 返回"
+            android:background="@android:color/transparent"
             android:textColor="#FFFFFF"
             android:textSize="14sp"
-            android:paddingLeft="12dp"
-            android:paddingRight="12dp" />
+            android:minWidth="0dp"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp" />
 
         <TextView
             android:layout_width="0dp"
@@ -35,7 +36,6 @@
             android:textStyle="bold"
             android:gravity="center" />
 
-        <!-- 占位，保持标题居中 -->
         <View
             android:layout_width="48dp"
             android:layout_height="wrap_content" />
@@ -59,26 +59,46 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:gravity="center"
-                android:padding="24dp"
+                android:padding="20dp"
                 android:background="#FFFFFF"
                 android:layout_marginBottom="16dp">
 
-                <ImageView
-                    android:id="@+id/iv_avatar"
-                    android:layout_width="80dp"
-                    android:layout_height="80dp"
-                    android:src="@android:drawable/sym_def_app_icon"
-                    android:background="#E0E0E0"
-                    android:padding="16dp" />
-
-                <Button
-                    android:id="@+id/btn_change_avatar"
+                <RelativeLayout
                     android:layout_width="wrap_content"
-                    android:layout_height="32dp"
-                    android:text="更换头像"
-                    android:background="#E0E0E0"
-                    android:textColor="#FFFFFF"
-                    android:textSize="10sp"
+                    android:layout_height="wrap_content">
+
+                    <ImageView
+                        android:id="@+id/iv_avatar"
+                        android:layout_width="80dp"
+                        android:layout_height="80dp"
+                        android:src="@android:drawable/sym_def_app_icon"
+                        android:background="#E0E0E0"
+                        android:padding="8dp" />
+
+                    <Button
+                        android:id="@+id/btn_change_avatar"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentBottom="true"
+                        android:background="#4CAF50"
+                        android:text="✎"
+                        android:textColor="#FFFFFF"
+                        android:textSize="12sp"
+                        android:padding="0dp"
+                        android:layout_marginEnd="4dp"
+                        android:layout_marginBottom="4dp" />
+
+                </RelativeLayout>
+
+                <TextView
+                    android:id="@+id/tv_username_display"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="旅行者"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:textColor="#333333"
                     android:layout_marginTop="12dp" />
 
             </LinearLayout>
@@ -91,14 +111,13 @@
                 android:textSize="16sp"
                 android:textStyle="bold"
                 android:textColor="#333333"
-                android:layout_marginBottom="8dp" />
+                android:layout_marginBottom="12dp" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:background="#FFFFFF"
-                android:padding="16dp"
                 android:layout_marginBottom="16dp">
 
                 <LinearLayout
@@ -106,74 +125,97 @@
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
                     android:gravity="center_vertical"
-                    android:paddingBottom="12dp">
+                    android:padding="16dp">
 
-                    <TextView
-                        android:layout_width="80dp"
-                        android:layout_height="wrap_content"
-                        android:text="用户名"
-                        android:textSize="14sp"
-                        android:textColor="#666666" />
-
-                    <TextView
-                        android:id="@+id/tv_username"
+                    <LinearLayout
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="demo"
-                        android:textSize="14sp"
-                        android:textColor="#333333" />
+                        android:orientation="vertical">
 
-                    <Button
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="用户名"
+                            android:textSize="12sp"
+                            android:textColor="#999999" />
+
+                        <TextView
+                            android:id="@+id/tv_username"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="demo"
+                            android:textSize="16sp"
+                            android:textColor="#333333"
+                            android:layout_marginTop="4dp" />
+                    </LinearLayout>
+
+                    <!-- 修改用户名按钮 - 用 TextView -->
+                    <TextView
                         android:id="@+id/btn_change_username"
                         android:layout_width="wrap_content"
                         android:layout_height="28dp"
                         android:text="修改"
-                        android:background="#E0E0E0"
+                        android:background="#4CAF50"
                         android:textColor="#FFFFFF"
-                        android:textSize="10sp"
-                        android:paddingLeft="10dp"
-                        android:paddingRight="10dp" />
+                        android:textSize="12sp"
+                        android:gravity="center"
+                        android:paddingLeft="12dp"
+                        android:paddingRight="12dp"
+                        android:clickable="true"
+                        android:focusable="true" />
+
                 </LinearLayout>
 
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    android:background="#EEEEEE" />
+                    android:background="#F0F0F0" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
                     android:gravity="center_vertical"
-                    android:paddingTop="12dp"
-                    android:paddingBottom="12dp">
+                    android:padding="16dp">
 
-                    <TextView
-                        android:layout_width="80dp"
-                        android:layout_height="wrap_content"
-                        android:text="密码"
-                        android:textSize="14sp"
-                        android:textColor="#666666" />
-
-                    <TextView
+                    <LinearLayout
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="········"
-                        android:textSize="14sp"
-                        android:textColor="#333333" />
+                        android:orientation="vertical">
 
-                    <Button
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="密码"
+                            android:textSize="12sp"
+                            android:textColor="#999999" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="········"
+                            android:textSize="16sp"
+                            android:textColor="#333333"
+                            android:layout_marginTop="4dp" />
+                    </LinearLayout>
+
+                    <!-- 修改密码按钮 - 用 TextView -->
+                    <TextView
                         android:id="@+id/btn_change_password"
                         android:layout_width="wrap_content"
                         android:layout_height="28dp"
                         android:text="修改"
-                        android:background="#E0E0E0"
+                        android:background="#4CAF50"
                         android:textColor="#FFFFFF"
-                        android:textSize="10sp"
+                        android:textSize="12sp"
+                        android:gravity="center"
                         android:paddingLeft="12dp"
-                        android:paddingRight="12dp" />
+                        android:paddingRight="12dp"
+                        android:clickable="true"
+                        android:focusable="true" />
+
                 </LinearLayout>
 
             </LinearLayout>
@@ -186,124 +228,131 @@
                 android:textSize="16sp"
                 android:textStyle="bold"
                 android:textColor="#333333"
-                android:layout_marginBottom="8dp" />
+                android:layout_marginBottom="12dp" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:background="#FFFFFF"
-                android:padding="16dp"
                 android:layout_marginBottom="16dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:paddingBottom="12dp">
+                    android:padding="16dp">
 
-                    <TextView
-                        android:layout_width="100dp"
-                        android:layout_height="wrap_content"
-                        android:text="当前等级"
-                        android:textSize="14sp"
-                        android:textColor="#666666" />
-
-                    <TextView
-                        android:id="@+id/tv_level"
+                    <LinearLayout
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="Lv.1"
-                        android:textSize="14sp"
-                        android:textColor="#333333" />
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="当前等级"
+                            android:textSize="12sp"
+                            android:textColor="#999999" />
+
+                        <TextView
+                            android:id="@+id/tv_level"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Lv.1"
+                            android:textSize="18sp"
+                            android:textStyle="bold"
+                            android:textColor="#4CAF50"
+                            android:layout_marginTop="4dp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        android:gravity="end">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="当前头衔"
+                            android:textSize="12sp"
+                            android:textColor="#999999" />
+
+                        <TextView
+                            android:id="@+id/tv_title"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="初学者"
+                            android:textSize="16sp"
+                            android:textColor="#666666"
+                            android:layout_marginTop="4dp" />
+                    </LinearLayout>
+
                 </LinearLayout>
 
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    android:background="#EEEEEE" />
+                    android:background="#F0F0F0" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:paddingTop="12dp"
-                    android:paddingBottom="12dp">
+                    android:padding="16dp">
 
-                    <TextView
-                        android:layout_width="100dp"
-                        android:layout_height="wrap_content"
-                        android:text="当前头衔"
-                        android:textSize="14sp"
-                        android:textColor="#666666" />
-
-                    <TextView
-                        android:id="@+id/tv_title"
+                    <LinearLayout
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="初学者"
-                        android:textSize="14sp"
-                        android:textColor="#333333" />
-                </LinearLayout>
+                        android:orientation="vertical">
 
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="#EEEEEE" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="累计经验"
+                            android:textSize="12sp"
+                            android:textColor="#999999" />
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:paddingTop="12dp"
-                    android:paddingBottom="12dp">
+                        <TextView
+                            android:id="@+id/tv_total_exp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="0"
+                            android:textSize="18sp"
+                            android:textStyle="bold"
+                            android:textColor="#FF9800"
+                            android:layout_marginTop="4dp" />
+                    </LinearLayout>
 
-                    <TextView
-                        android:layout_width="100dp"
-                        android:layout_height="wrap_content"
-                        android:text="累计经验"
-                        android:textSize="14sp"
-                        android:textColor="#666666" />
-
-                    <TextView
-                        android:id="@+id/tv_total_exp"
+                    <LinearLayout
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="0"
-                        android:textSize="14sp"
-                        android:textColor="#333333" />
-                </LinearLayout>
+                        android:orientation="vertical"
+                        android:gravity="end">
 
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="#EEEEEE" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="完成任务"
+                            android:textSize="12sp"
+                            android:textColor="#999999" />
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:paddingTop="12dp"
-                    android:paddingBottom="12dp">
+                        <TextView
+                            android:id="@+id/tv_completed_tasks"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="0"
+                            android:textSize="18sp"
+                            android:textStyle="bold"
+                            android:textColor="#2196F3"
+                            android:layout_marginTop="4dp" />
+                    </LinearLayout>
 
-                    <TextView
-                        android:layout_width="100dp"
-                        android:layout_height="wrap_content"
-                        android:text="完成任务"
-                        android:textSize="14sp"
-                        android:textColor="#666666" />
-
-                    <TextView
-                        android:id="@+id/tv_completed_tasks"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="0"
-                        android:textSize="14sp"
-                        android:textColor="#333333" />
                 </LinearLayout>
 
             </LinearLayout>
@@ -316,70 +365,73 @@
                 android:textSize="16sp"
                 android:textStyle="bold"
                 android:textColor="#333333"
-                android:layout_marginBottom="8dp" />
+                android:layout_marginBottom="12dp" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:background="#FFFFFF"
-                android:padding="16dp"
-                android:layout_marginBottom="16dp">
+                android:layout_marginBottom="24dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:paddingBottom="12dp">
+                    android:padding="16dp">
 
-                    <TextView
-                        android:layout_width="100dp"
-                        android:layout_height="wrap_content"
-                        android:text="注册日期"
-                        android:textSize="14sp"
-                        android:textColor="#666666" />
-
-                    <TextView
-                        android:id="@+id/tv_register_date"
+                    <LinearLayout
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="2026-05-17"
-                        android:textSize="14sp"
-                        android:textColor="#333333" />
-                </LinearLayout>
+                        android:orientation="vertical">
 
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="#EEEEEE" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="注册日期"
+                            android:textSize="12sp"
+                            android:textColor="#999999" />
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:paddingTop="12dp">
+                        <TextView
+                            android:id="@+id/tv_register_date"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="2026-05-17"
+                            android:textSize="14sp"
+                            android:textColor="#333333"
+                            android:layout_marginTop="4dp" />
+                    </LinearLayout>
 
-                    <TextView
-                        android:layout_width="100dp"
-                        android:layout_height="wrap_content"
-                        android:text="最后登录"
-                        android:textSize="14sp"
-                        android:textColor="#666666" />
-
-                    <TextView
-                        android:id="@+id/tv_last_login"
+                    <LinearLayout
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="2026-05-17"
-                        android:textSize="14sp"
-                        android:textColor="#333333" />
+                        android:orientation="vertical"
+                        android:gravity="end">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="最后登录"
+                            android:textSize="12sp"
+                            android:textColor="#999999" />
+
+                        <TextView
+                            android:id="@+id/tv_last_login"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="2026-05-17"
+                            android:textSize="14sp"
+                            android:textColor="#333333"
+                            android:layout_marginTop="4dp" />
+                    </LinearLayout>
+
                 </LinearLayout>
 
             </LinearLayout>
 
-            <!-- 👇 新增：设置新的委托按钮 -->
+            <!-- 按钮区域 -->
             <Button
                 android:id="@+id/btn_new_gesture_task"
                 android:layout_width="match_parent"
@@ -389,9 +441,8 @@
                 android:textColor="#FFFFFF"
                 android:textSize="16sp"
                 android:layout_marginTop="8dp"
-                android:layout_marginBottom="16dp" />
+                android:layout_marginBottom="12dp" />
 
-            <!-- 退出登录按钮 -->
             <Button
                 android:id="@+id/btn_logout"
                 android:layout_width="match_parent"

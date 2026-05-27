@@ -30,8 +30,8 @@ public class UserProfileActivity extends AppCompatActivity {
     private TextView tvCompletedTasks;
     private TextView tvRegisterDate;
     private TextView tvLastLogin;
-    private Button btnChangeUsername;
-    private Button btnChangePassword;
+    private TextView btnChangeUsername;
+    private TextView btnChangePassword;
     private Button btnLogout;
     private Button btnNewGestureTask;
     private ImageView ivAvatar;

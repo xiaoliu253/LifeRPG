@@ -80,7 +80,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
                 tvTitle.setAlpha(0.5f);
                 tvExp.setAlpha(0.5f);
                 tvDueDate.setAlpha(0.5f);
-                cbComplete.setEnabled(false);  // 已完成的任务不能再勾选
+                cbComplete.setEnabled(false);
             } else {
                 tvTitle.setAlpha(1f);
                 tvExp.setAlpha(1f);
@@ -88,21 +88,20 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
                 cbComplete.setEnabled(true);
             }
 
-            // 重新设置监听器
+            // 只保留这一个监听器
             cbComplete.setOnCheckedChangeListener((buttonView, isChecked) -> {
                 android.util.Log.d("TaskAdapter", "CheckBox 点击: isChecked=" + isChecked + ", 任务=" + task.getTitle() + ", task.isCompleted=" + task.isCompleted());
 
                 if (isChecked && !task.isCompleted()) {
                     android.util.Log.d("TaskAdapter", "条件满足，调用 onTaskCompleted");
-                    task.setCompleted(true);
+                    // 注意：不要在这里修改 task.setCompleted(true)！
+                    // 让 TaskListFragment 来处理状态修改
                     listener.onTaskCompleted(task);
                     int position = getAdapterPosition();
                     android.util.Log.d("TaskAdapter", "position=" + position);
                     if (position != RecyclerView.NO_POSITION) {
                         notifyItemChanged(position);
                     }
-                } else {
-                    android.util.Log.d("TaskAdapter", "条件不满足，跳过");
                 }
             });
         }
